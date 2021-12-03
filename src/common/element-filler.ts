@@ -50,6 +50,18 @@ class ElementFiller {
   }
 
   private isElementVisible(element: FillableElement): boolean {
+    // Docassemble specific stuff
+    if (element.className.includes("labelauty")) { // this tells us it's a Docassemble input
+      // it's visible unless it's behind a showif
+      if (element.parentNode && element.parentNode.parentNode && element.parentNode.parentNode.parentNode && element.parentNode.parentNode.parentNode.parentNode) {
+        let showifcontainer = element.parentNode.parentNode.parentNode.parentNode as FillableElement;
+        if (showifcontainer.className.includes("dashowif")) {
+          return this.isElementVisible(showifcontainer); // check to see if the 4th grandparent container is visible
+        }
+      }
+      return true;
+    }
+
     if (!element.offsetHeight && !element.offsetWidth) {
       return false;
     }
