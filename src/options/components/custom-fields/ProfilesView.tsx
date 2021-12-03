@@ -8,13 +8,13 @@ import ProfileModal from "src/options/components/custom-fields/ProfileModal";
 import { IProfile } from "src/types";
 
 type Props = {
-  // isProEdition: boolean;
+  isProEdition: boolean;
   profileIndex: number;
   profiles: IProfile[];
 };
 
 const ProfilesView: React.FC<Props> = (props) => {
-  const { profiles, profileIndex } = props;
+  const { isProEdition, profiles, profileIndex } = props;
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [profile, setProfile] = useState<IProfile | undefined>();
@@ -30,45 +30,45 @@ const ProfilesView: React.FC<Props> = (props) => {
   }
 
   function newProfile(): void {
-    // if (isProEdition) {
-    setProfile(undefined);
-    setActionType("create");
-    setModalIsOpen(true);
-    // }
+    if (isProEdition) {
+      setProfile(undefined);
+      setActionType("create");
+      setModalIsOpen(true);
+    }
   }
 
   function handleEdit(): void {
-    // if (isProEdition) {
-    setProfile(profiles[profileIndex]);
-    setActionType("edit");
-    setModalIsOpen(true);
-    // }
+    if (isProEdition) {
+      setProfile(profiles[profileIndex]);
+      setActionType("edit");
+      setModalIsOpen(true);
+    }
   }
 
   function handleDelete(): void {
-    // if (isProEdition) {
-    // eslint-disable-next-line no-alert
-    if (profileIndex >= 0 && window.confirm(GetMessage("profile_delete_confirm_message"))) {
-      dispatch(deleteProfile(profileIndex));
-      history.push("/custom-fields");
-      // }
+    if (isProEdition) {
+      // eslint-disable-next-line no-alert
+      if (profileIndex >= 0 && window.confirm(GetMessage("profile_delete_confirm_message"))) {
+        dispatch(deleteProfile(profileIndex));
+        history.push("/custom-fields");
+      }
     }
   }
 
   function handleSave(formValues: IProfile): void {
-    // if (isProEdition) {
-    if (actionType === "edit") {
-      dispatch(saveProfile(formValues, profileIndex));
-    } else {
-      dispatch(createProfile(formValues));
+    if (isProEdition) {
+      if (actionType === "edit") {
+        dispatch(saveProfile(formValues, profileIndex));
+      } else {
+        dispatch(createProfile(formValues));
+      }
+      closeModal();
     }
-    closeModal();
-    // }
   }
 
-  // if (!isProEdition && profiles.length === 0) {
-  //   return <>{props.children}</>;
-  // }
+  if (!isProEdition && profiles.length === 0) {
+    return <>{props.children}</>;
+  }
 
   return (
     <>
@@ -86,7 +86,7 @@ const ProfilesView: React.FC<Props> = (props) => {
               </NavLink>
             ))}
           </nav>
-          {(
+          {isProEdition && (
             <>
               <p />
               <div className="text-center">
@@ -100,8 +100,15 @@ const ProfilesView: React.FC<Props> = (props) => {
         <div className="col-9">
           {profileIndex >= 0 && (
             <>
-
-              {(
+              {!isProEdition && (
+                <div className="alert alert-warning">
+                  {GetMessage("profile_thisProfileDisabled")}{" "}
+                  <a className="alert-link" href="https://fakefiller.com/#pricing">
+                    {GetMessage("upgradeToFakeFillerPro")}
+                  </a>
+                </div>
+              )}
+              {isProEdition && (
                 <div className="float-right">
                   <button type="button" className="btn btn-sm btn-link" onClick={handleEdit}>
                     <img src="images/edit.svg" width="12" height="12" alt={GetMessage("edit")} />
@@ -119,7 +126,7 @@ const ProfilesView: React.FC<Props> = (props) => {
 
           {props.children}
 
-          {profileIndex >= 0 && (
+          {isProEdition && profileIndex >= 0 && (
             <div className="text-center mt-5">
               <button type="button" onClick={handleDelete} className="btn btn-sm btn-outline-danger">
                 {GetMessage("profiles_delete_button_label")}

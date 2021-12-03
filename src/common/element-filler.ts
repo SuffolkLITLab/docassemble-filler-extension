@@ -409,16 +409,9 @@ class ElementFiller {
     switch (elementType) {
       case "checkbox": {
         if (this.isAnyMatch(element.name.toLowerCase(), this.options.agreeTermsFields)) {
-          let label: HTMLElement = element.nextElementSibling as HTMLElement;
-          if (label) {
-            label.click();
-          }
+          element.checked = true;
         } else {
-          let label: HTMLElement = element.nextElementSibling as HTMLElement;
-          if (label) {
-            label.click();
-          }
-          // element.checked = Math.random() > 0.5;
+          element.checked = Math.random() > 0.5;
         }
         break;
       }

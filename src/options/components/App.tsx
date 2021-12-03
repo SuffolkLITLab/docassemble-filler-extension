@@ -1,6 +1,6 @@
 import React from "react";
 import { Nav, Navbar } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, Route } from "react-router-dom";
 
 import { GetMessage, FakeFillerDefaultOptions } from "src/common/helpers";
@@ -10,18 +10,18 @@ import ChangeLogPage from "src/options/components/ChangeLogPage";
 import CustomFieldsPage from "src/options/components/CustomFieldsPage";
 import GeneralSettingsPage from "src/options/components/GeneralSettingsPage";
 import KeyboardShortcutsPage from "src/options/components/KeyboardShortcutsPage";
-// import LoginPage from "src/options/components/LoginPage";
-// import MyAccountPage from "src/options/components/MyAccountPage";
+import LoginPage from "src/options/components/LoginPage";
+import MyAccountPage from "src/options/components/MyAccountPage";
 import ExternalLink from "src/options/components/common/ExternalLink";
 import HtmlPhrase from "src/options/components/common/HtmlPhrase";
 import ScrollToTop from "src/options/components/common/ScrollToTop";
-// import { IAppState } from "src/types";
+import { IAppState } from "src/types";
 
 import "src/options/components/App.scss";
 
 function App() {
   const dispatch = useDispatch();
-  // const isLoggedIn = useSelector<IAppState, boolean>((state) => !!state.authData.user);
+  const isLoggedIn = useSelector<IAppState, boolean>((state) => !!state.authData.user);
 
   const sendFeedbackMessage = chrome.i18n.getMessage("leftNav_sendFeedback", ["hussein@fakefiller.com"]);
 
@@ -61,6 +61,18 @@ function App() {
               Help
             </Nav.Link>
           </Nav>
+          <Nav>
+            {isLoggedIn && (
+              <Nav.Link as={NavLink} to="/account">
+                My Account
+              </Nav.Link>
+            )}
+            {!isLoggedIn && (
+              <Nav.Link as={NavLink} to="/login">
+                Login
+              </Nav.Link>
+            )}
+          </Nav>
         </Navbar.Collapse>
       </Navbar>
       <div id="main-content" className="container">
@@ -69,6 +81,8 @@ function App() {
         <Route path="/keyboard-shortcuts" component={KeyboardShortcutsPage} />
         <Route path="/backup" component={BackupAndRestorePage} />
         <Route path="/changelog" component={ChangeLogPage} />
+        <Route path="/login" component={LoginPage} />
+        <Route path="/account" component={MyAccountPage} />
       </div>
       <footer id="main-footer" className="container">
         <HtmlPhrase phrase={sendFeedbackMessage} as="p" />

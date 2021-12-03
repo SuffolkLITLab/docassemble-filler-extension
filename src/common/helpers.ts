@@ -1,4 +1,4 @@
-//import { saveOptionsToDb } from "src/common/firebase";
+import { saveOptionsToDb } from "src/common/firebase";
 import { IFakeFillerOptions, ICustomField } from "src/types";
 
 // spell-checker:disable
@@ -16,7 +16,7 @@ export const DEFAULT_EMAIL_CUSTOM_FIELD: ICustomField = {
   emailUsernameList: ["jack", "jill"],
   emailUsernameRegEx: "",
   emailHostname: "list",
-  emailHostnameList: ["example.com"],
+  emailHostnameList: ["mailinator.com"],
 };
 
 const FakeFillerDefaultOptions = (): IFakeFillerOptions => {
@@ -206,6 +206,9 @@ const CreateContextMenus = (enableContextMenu: boolean): void => {
 };
 
 const SaveFakeFillerOptions = (options: IFakeFillerOptions): void => {
+  saveOptionsToDb(options).then((updatedAt) => {
+    chrome.storage.local.set({ updatedAt });
+  });
 
   chrome.storage.local.set({
     options,

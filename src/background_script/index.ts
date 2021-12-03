@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-// import { onAuthStateChange, onOptionsChange } from "src/common/firebase";
+import { onAuthStateChange, onOptionsChange } from "src/common/firebase";
 import {
   CreateContextMenus,
   GetFakeFillerOptions,
@@ -8,11 +8,9 @@ import {
   SaveFakeFillerOptions,
   DEFAULT_EMAIL_CUSTOM_FIELD,
 } from "src/common/helpers";
-//import { MessageRequest, IProfile, IFakeFillerOptions, FirebaseUser, FirebaseCustomClaims } from "src/types";
+import { MessageRequest, IProfile, IFakeFillerOptions, FirebaseUser, FirebaseCustomClaims } from "src/types";
 
-DEFAULT_EMAIL_CUSTOM_FIELD; // to get around TS linter
-
-//let isProEdition = false;
+let isProEdition = false;
 
 function NotifyTabsOfNewOptions(options: IFakeFillerOptions) {
   chrome.tabs.query({}, (tabs) => {
@@ -28,38 +26,38 @@ function NotifyTabsOfNewOptions(options: IFakeFillerOptions) {
   });
 }
 
-// function handleOptionsChange(options: IFakeFillerOptions) {
-//   if (isProEdition) {
-//     chrome.storage.local.set({ options }, () => {
-//       CreateContextMenus(options.enableContextMenu);
-//       NotifyTabsOfNewOptions(options);
-//     });
-//   }
-// }
+function handleOptionsChange(options: IFakeFillerOptions) {
+  if (isProEdition) {
+    chrome.storage.local.set({ options }, () => {
+      CreateContextMenus(options.enableContextMenu);
+      NotifyTabsOfNewOptions(options);
+    });
+  }
+}
 
-// function handleAuthStateChange(user: FirebaseUser, claims: FirebaseCustomClaims) {
-//   if (user && claims) {
-//     isProEdition = claims.subscribed;
-//   } else {
-//     isProEdition = false;
-//   }
-//   GetFakeFillerOptions().then((result) => {
-//     NotifyTabsOfNewOptions(result);
-//   });
-// }
+function handleAuthStateChange(user: FirebaseUser, claims: FirebaseCustomClaims) {
+  if (user && claims) {
+    isProEdition = claims.subscribed;
+  } else {
+    isProEdition = false;
+  }
+  GetFakeFillerOptions().then((result) => {
+    NotifyTabsOfNewOptions(result);
+  });
+}
 
-// onAuthStateChange(handleAuthStateChange);
-// onOptionsChange(handleOptionsChange);
+onAuthStateChange(handleAuthStateChange);
+onOptionsChange(handleOptionsChange);
 
 function handleMessage(
   request: MessageRequest,
   sender: chrome.runtime.MessageSender,
-  sendResponse: (options: any) => void
+  sendResponse: (response: any) => void
 ): boolean | null {
   switch (request.type) {
     case "getOptions": {
       GetFakeFillerOptions().then((result) => {
-        sendResponse({ options: result });
+        sendResponse({ options: result, isProEdition });
       });
       return true;
     }
