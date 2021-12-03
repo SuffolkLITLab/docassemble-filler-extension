@@ -5,6 +5,15 @@ import ExternalLink from "src/options/components/common/ExternalLink";
 const ChangeLogPage = () => {
   return (
     <div>
+      <h2>Docassemble Filler changelog</h2>
+      <p>
+        <strong>Initial version</strong>
+      </p>
+      <ul>
+        <li>Initial version - handle hidden labelauty inputs specially so checkboxes and radio buttons work</li>
+      </ul>
+      <hr />
+
       <h2>Fake Filler Changelog</h2>
       <p>
         <strong>Version 3.3.0</strong>

@@ -18,7 +18,7 @@ import "src/options/components/App.scss";
 function App() {
   const dispatch = useDispatch();
 
-  const sendFeedbackMessage = chrome.i18n.getMessage("leftNav_sendFeedback", ["hussein@fakefiller.com"]);
+  const sendFeedbackMessage = chrome.i18n.getMessage("leftNav_sendFeedback", ["massaccess@suffolk.edu"]);
 
   function handleResetSettings(event: React.SyntheticEvent): void {
     event.preventDefault();

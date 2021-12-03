@@ -8,7 +8,7 @@ const Introduction = () => {
     <div>
       <p>
         {GetMessage("customFields_intro")}{" "}
-        <ExternalLink url="https://github.com/FakeFiller/fake-filler-extension/wiki/Customization-using-Custom-Fields-and-Profiles">
+        <ExternalLink url="https://github.com/suffolklitlab/docassemble-filler-extension/wiki/Customization-using-Custom-Fields-and-Profiles">
           <b>{GetMessage("customFields_getMoreInfo")}</b>
         </ExternalLink>
       </p>
