@@ -7,9 +7,10 @@ declare global {
   }
 }
 
-function initialize(options: IFakeFillerOptions, isProEdition: boolean) {
+function initialize(options: IFakeFillerOptions) {
   let profileIndex = -1;
   const url = window.location.href;
+  const isProEdition = true;
 
   chrome.runtime.sendMessage({ type: "clearProfileBadge" }, () => chrome.runtime.lastError);
 
@@ -32,8 +33,7 @@ function handleMessage(request: MessageRequest): boolean | null {
   switch (request.type) {
     case "receiveNewOptions": {
       const options = request.data.options as IFakeFillerOptions;
-      const isProEdition = request.data.isProEdition as boolean;
-      initialize(options, isProEdition);
+      initialize(options);
       return true;
     }
 
@@ -50,8 +50,7 @@ document.addEventListener("mousedown", (event) => {
 
 chrome.runtime.sendMessage({ type: "getOptions" }, (response) => {
   const options = response.options as IFakeFillerOptions;
-  const isProEdition = response.isProEdition as boolean;
-  initialize(options, isProEdition);
+  initialize(options);
 });
 
 chrome.runtime.onMessage.addListener(handleMessage);
