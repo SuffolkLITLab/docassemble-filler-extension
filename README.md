@@ -9,9 +9,7 @@ with [Docassemble](https://docassemble.org) checkboxes and radio buttons.
 
 ## Install
 
-- [**Chrome** extension](https://chrome.google.com/webstore/detail/bnjjngeaknajbdcgpfkgnonkmififhfo)
-- [**Edge** extension](https://microsoftedge.microsoft.com/addons/detail/bdcjobafgkjgckiikonbfcdocnhnaaii)
-- [**Firefox** add-on](https://addons.mozilla.org/en-US/firefox/addon/fake-filler/)
+This extension is not published yet. You can experiment with it for now by following the developer instructions.
 
 ## Default shortcut
 
