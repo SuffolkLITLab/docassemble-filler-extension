@@ -1,3 +1,7 @@
+# Deprecated
+
+The official fakefiller allows this by turning on the option "fill in hidden fields"
+
 # <img src="public/images/logo.svg" height="53" alt="Docassemble Filler" title="Docassemble Filler" />
 
 This extension allows you to fill all form inputs (textboxes, textareas, radio
